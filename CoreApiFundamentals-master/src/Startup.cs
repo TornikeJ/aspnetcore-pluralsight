@@ -22,7 +22,7 @@ namespace CoreCodeCamp
             services.AddDbContext<CampContext>();
             services.AddScoped<ICampRepository, CampRepository>();
 
-            services.AddAutoMapper(typeof(CampProfile));
+            services.AddAutoMapper(typeof(CampProfile), typeof(TalkProfile));
 
             services.AddMvc()
               .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
