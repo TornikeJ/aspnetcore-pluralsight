@@ -13,6 +13,8 @@ namespace CoreCodeCamp.Controllers
 {
 
     [ApiController]
+    [ApiVersion("1.0")]
+    [ApiVersion("1.1")]
     [Route("api/camps/{moniker}/talks")]
     public class TalksController : ControllerBase
     {
@@ -41,6 +43,20 @@ namespace CoreCodeCamp.Controllers
             }
         }
 
+        [HttpGet]
+        [MapToApiVersion("1.1")]
+        public async Task<ActionResult<TalkModel[]>> GetVerTwo(string moniker)
+        {
+            try
+            {
+                var talks = await repository.GetTalksByMonikerAsync(moniker, false);
+                return mapper.Map<TalkModel[]>(talks);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database error");
+            }
+        }
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult<TalkModel>> Get(string moniker, int id)
